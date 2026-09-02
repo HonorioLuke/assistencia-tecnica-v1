@@ -1,49 +1,26 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #7C3AED;
+  --color-secondary: #10B981;
+
+  --color-page: #E3DDF6;
+  --color-surface: #1E1547;
+  --color-surface-hover: #2A2060;
+  --color-sidebar: #150F35;
+
+  --color-heading: #FFFFFF;
+  --color-onsurface: #E8E5F5;
+  --color-muted: #A9A3C7;
+  --color-subtle: #55507D;
+
+  --color-divider: #332A5E;
+  --color-field: #FFFFFF;
+  --color-field-border: #D6D0EA;
+  --color-info: #9B8FCB;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+  background-color: var(--color-page);
+  color: var(--color-surface);
 }

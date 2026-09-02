@@ -1,69 +1,38 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import { DashboardCards } from "@/components/dashboard-cards";
+import { KanbanBoard } from "@/components/features/ordens/kanban-board";
+import { useOrdens } from "@/hooks/ordens/use-ordens";
+
+export default function HomePage() {
+  const { ordens, carregando, erro, mudarStatus, atualizarOrdem } = useOrdens();
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="p-8 bg-page min-h-screen">
+      <div className="max-w-[1400px] mx-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-primary">Visão Geral — L&L AHTI</h1>
+          <p className="text-secondary mt-1">Resumo operacional da bancada</p>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        <DashboardCards />
+
+        <h2 className="text-xl font-bold text-surface mb-4 mt-10">Esteira de Produção</h2>
+
+        {erro && (
+          <div className="mb-4 p-3 rounded bg-red-50 border border-red-200 text-red-700 text-sm">
+            {erro}
+          </div>
+        )}
+
+        {carregando ? (
+          <div className="flex justify-center items-center h-48">
+            <p className="text-subtle animate-pulse">Carregando a esteira...</p>
+          </div>
+        ) : (
+          <KanbanBoard ordens={ordens} onStatusChange={mudarStatus} onSave={atualizarOrdem} />
+        )}
+      </div>
+    </main>
   );
 }
