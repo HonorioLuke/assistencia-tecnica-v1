@@ -8,5 +8,5 @@ export async function deletarClienteUseCase(id: number): Promise<void> {
 
   await ordemRepositorio.removerPorEquipamentoIds(equipamentoIds);
   await equipamentoRepositorio.removerPorClienteId(id);
-  await clienteRepositorio.remover(id);
+  await clienteRepositorio.delete(id);
 }

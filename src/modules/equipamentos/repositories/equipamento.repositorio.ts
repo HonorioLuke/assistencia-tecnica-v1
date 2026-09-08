@@ -26,7 +26,7 @@ export const equipamentoRepositorio = {
 
   async buscarPorId(id: number): Promise<respostaEquipamentoDto | null> {
     const [equipamento] = await db
-      .select(SELECT_COM_JOIN)
+      .select(DADOS)
       .from(equipamentos)
       .leftJoin(clientes, eq(equipamentos.clienteId, clientes.id))
       .where(eq(equipamentos.id, id));

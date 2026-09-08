@@ -4,6 +4,7 @@ import { ordensServico } from "@/infrastructure/schemas/ordens";
 import { equipamentos } from "@/infrastructure/schemas/equipamentos";
 import { clientes } from "@/infrastructure/schemas/clientes";
 import { StatusOS } from "@/shared/constants/os-status";
+import type { TipoStatusOS } from "@/shared/types/domain/ordens/ordens";
 import type { CriarOrdemDto } from "../dto/criar-ordem.dto";
 import type { AtualizarOrdemDto } from "../dto/atualizar-ordem.dto";
 import type { OrdemRespostaDto } from "../dto/ordem-resposta.dto";
@@ -26,13 +27,22 @@ const SELECT_COM_JOINS = {
   clienteNome: clientes.nome,
 };
 
+// O Drizzle infere `status` como `string` (coluna não tipada com o enum no
+// schema). Fazemos o cast aqui, num único lugar, em vez de espalhar `as any`
+// pelo código que consome esses dados.
+function mapOrdem<T extends { status: string }>(row: T): T & { status: TipoStatusOS } {
+  return { ...row, status: row.status as TipoStatusOS };
+}
+
 export const ordemRepositorio = {
   async buscarTodos(): Promise<OrdemRespostaDto[]> {
-    return db
+    const linhas = await db
       .select(SELECT_COM_JOINS)
       .from(ordensServico)
       .leftJoin(equipamentos, eq(ordensServico.equipamentoId, equipamentos.id))
       .leftJoin(clientes, eq(equipamentos.clienteId, clientes.id));
+
+    return linhas.map(mapOrdem);
   },
 
   async buscarPorId(id: number): Promise<OrdemRespostaDto | null> {
@@ -42,7 +52,8 @@ export const ordemRepositorio = {
       .leftJoin(equipamentos, eq(ordensServico.equipamentoId, equipamentos.id))
       .leftJoin(clientes, eq(equipamentos.clienteId, clientes.id))
       .where(eq(ordensServico.id, id));
-    return ordem ?? null;
+
+    return ordem ? mapOrdem(ordem) : null;
   },
 
   async criar(dado: CriarOrdemDto & { numero: string }) {
@@ -80,7 +91,7 @@ export const ordemRepositorio = {
     return atualizada;
   },
 
-  async atualizarStatus(id: number, novoStatus: string) {
+  async atualizarStatus(id: number, novoStatus: TipoStatusOS) {
     const deliveredAt = novoStatus === StatusOS.ENTREGUE ? new Date() : null;
 
     const [atualizada] = await db
