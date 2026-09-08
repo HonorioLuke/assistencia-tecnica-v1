@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { listarEquipamentosAction } from "@/actions/equipamentos/listar-equipamentos.action";
 import { criarOrdemAction } from "@/actions/ordens/criar-ordem.action";
 import type { respostaEquipamentoDto } from "@/modules/equipamentos/dto/equipamento-resposta.dto";
+import { BuscaEquipamento } from "@/components/features/ordens/BuscaEquipamento";
 
 export default function OrdensPage() {
   const [descricao, setDescricao] = useState("");
@@ -52,20 +53,11 @@ export default function OrdensPage() {
         <form onSubmit={handleSubmit} className="bg-surface p-6 rounded-xl shadow-sm border border-divider mb-8 flex flex-col gap-4">
           <div>
             <label className="block text-sm font-semibold text-muted mb-1">Equipamento Vinculado</label>
-            <select
-              required
-              className="w-full border-field-border bg-field border p-2.5 rounded focus:ring-primary outline-none cursor-pointer text-sm"
-              value={equipamentoId}
-              onChange={(e) => setEquipamentoId(e.target.value)}
-            >
-              <option value="" disabled>Selecione o equipamento do cliente...</option>
-              {equipamentos.map((eq) => (
-                <option key={eq.id} value={eq.id}>
-                  {eq.tipo} {eq.marca} {eq.modelo}
-                  {eq.clienteNome ? ` — ${eq.clienteNome}` : ""}
-                </option>
-              ))}
-            </select>
+            <BuscaEquipamento
+              equipamentos={equipamentos}
+              value={equipamentoId ? Number(equipamentoId) : null}
+              onChange={(id) => setEquipamentoId(String(id))}
+            />
           </div>
 
           <div>
@@ -83,7 +75,7 @@ export default function OrdensPage() {
           <div className="flex justify-end mt-2">
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !equipamentoId}
               className="bg-secondary text-white font-bold py-2.5 px-8 rounded hover:bg-emerald-600 transition text-sm disabled:bg-gray-400"
             >
               {isSubmitting ? "Salvando..." : "Gerar Nova OS"}

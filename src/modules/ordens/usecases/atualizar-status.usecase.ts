@@ -1,8 +1,8 @@
-import { STATUS_OS } from "@/shared/constants/os-status";
+import { StatusOS } from "@/shared/constants/os-status";
 import type { AtualizarStatusDto } from "../dto/atualizar-status.dto";
 import { ordemRepositorio } from "../repositories/ordem.repositorio";
 
-const STATUS_VALIDOS = Object.values(STATUS_OS);
+const STATUS_VALIDOS = Object.values(StatusOS);
 
 export async function atualizarStatusUseCase(
   id: number,
