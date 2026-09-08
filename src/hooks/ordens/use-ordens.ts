@@ -8,7 +8,7 @@ import { listarOrdensAction } from "@/actions/ordens/listar-ordens.action";
 import type { CriarOrdemDto } from "@/modules/ordens/dto/criar-ordem.dto";
 import type { AtualizarOrdemDto } from "@/modules/ordens/dto/atualizar-ordem.dto";
 import type { OrdemRespostaDto } from "@/modules/ordens/dto/ordem-resposta.dto";
-import type { StatusOS } from "@/shared/constants/os-status.ts";
+import type { TipoStatusOS } from "@/shared/types/domain/ordens/ordens";
 
 export function useOrdens() {
   const [ordens, setOrdens] = useState<OrdemRespostaDto[]>([]);
@@ -68,7 +68,7 @@ export function useOrdens() {
     }
   }
 
-  async function mudarStatus(id: number, novoStatus: StatusOS): Promise<boolean> {
+  async function mudarStatus(id: number, novoStatus: TipoStatusOS): Promise<boolean> {
     try {
       setErro(null);
       await atualizarStatusAction(id, novoStatus);

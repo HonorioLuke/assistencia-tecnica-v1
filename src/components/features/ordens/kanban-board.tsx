@@ -5,10 +5,11 @@ import { StatusOS } from "@/shared/constants/os-status";
 import { EditOSModal } from "@/components/features/ordens/kanban/EditOSModal";
 import type { OrdemRespostaDto } from "@/modules/ordens/dto/ordem-resposta.dto";
 import type { AtualizarOrdemDto } from "@/modules/ordens/dto/atualizar-ordem.dto";
+import type { TipoStatusOS } from "@/shared/types/domain/ordens/ordens";
 
 interface KanbanProps {
   ordens: OrdemRespostaDto[];
-  onStatusChange: (id: number, status: StatusOS) => void;
+  onStatusChange: (id: number, status: TipoStatusOS) => void;
   onSave: (id: number, dados: AtualizarOrdemDto) => Promise<boolean>;
 }
 
@@ -138,7 +139,7 @@ export function KanbanBoard({ ordens, onStatusChange, onSave }: KanbanProps) {
                       onClick={(e) => e.stopPropagation()}
                       onChange={(e) => {
                         e.stopPropagation();
-                        onStatusChange(os.id, e.target.value as StatusOS);
+                        onStatusChange(os.id, e.target.value as TipoStatusOS);
                       }}
                     >
                       {colunas.map((c) => (

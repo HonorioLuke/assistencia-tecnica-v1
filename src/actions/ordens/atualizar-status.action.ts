@@ -1,9 +1,9 @@
-import type { StatusOS } from "@/shared/constants/os-status";
+import type { TipoStatusOS } from "@/shared/types/domain/ordens/ordens";
 import type { OrdemRespostaDto } from "@/modules/ordens/dto/ordem-resposta.dto";
 
 export async function atualizarStatusAction(
   id: number,
-  novoStatus: StatusOS
+  novoStatus: TipoStatusOS
 ): Promise<OrdemRespostaDto> {
   const resposta = await fetch(`/api/ordens/${id}/status`, {
     method: "PATCH",

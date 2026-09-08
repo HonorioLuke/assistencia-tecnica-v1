@@ -28,10 +28,32 @@ const SELECT_COM_JOINS = {
 };
 
 // O Drizzle infere `status` como `string` (coluna não tipada com o enum no
-// schema). Fazemos o cast aqui, num único lugar, em vez de espalhar `as any`
-// pelo código que consome esses dados.
-function mapOrdem<T extends { status: string }>(row: T): T & { status: TipoStatusOS } {
-  return { ...row, status: row.status as TipoStatusOS };
+// schema) e os campos vindos do leftJoin como `string | null`. Normalizamos
+// os dois aqui, num único lugar, em vez de espalhar casts pelo código que
+// consome esses dados.
+function mapOrdem<
+  T extends {
+    status: string;
+    equipamentoTipo?: string | null;
+    equipamentoMarca?: string | null;
+    equipamentoModelo?: string | null;
+    clienteNome?: string | null;
+  }
+>(row: T): Omit<T, "status" | "equipamentoTipo" | "equipamentoMarca" | "equipamentoModelo" | "clienteNome"> & {
+  status: TipoStatusOS;
+  equipamentoTipo?: string;
+  equipamentoMarca?: string;
+  equipamentoModelo?: string;
+  clienteNome?: string;
+} {
+  return {
+    ...row,
+    status: row.status as TipoStatusOS,
+    equipamentoTipo: row.equipamentoTipo ?? undefined,
+    equipamentoMarca: row.equipamentoMarca ?? undefined,
+    equipamentoModelo: row.equipamentoModelo ?? undefined,
+    clienteNome: row.clienteNome ?? undefined,
+  };
 }
 
 export const ordemRepositorio = {
