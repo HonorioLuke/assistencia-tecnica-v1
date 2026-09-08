@@ -15,7 +15,6 @@ export interface Ordem {
   tipoServico: string | null;
   observacao: string | null;
 
-  // 👉 Adicione estes campos opcionais aqui no domain:
   equipamentoTipo?: string;
   equipamentoMarca?: string;
   equipamentoModelo?: string;

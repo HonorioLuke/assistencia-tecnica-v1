@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import type { OrdemRespostaDto } from "@/modules/ordens/dto/ordem-resposta.dto";
 import type { AtualizarOrdemDto } from "@/modules/ordens/dto/atualizar-ordem.dto";
+import { StatusOS } from "@/shared/constants/os-status";
+import type { TipoStatusOS } from "@/shared/types/domain/ordens/ordens";
 
 interface EditOSModalProps {
   ordem: OrdemRespostaDto | null;
@@ -10,7 +12,8 @@ interface EditOSModalProps {
   onSave: (id: number, dados: AtualizarOrdemDto) => Promise<boolean>;
 }
 
-const STATUS_OPTIONS = ["Recebido", "Em análise", "Em reparo", "Pronto", "Entregue"];
+// Deriva as opções direto do objeto StatusOS, garantindo que batem com TipoStatusOS
+const STATUS_OPTIONS = Object.values(StatusOS) as TipoStatusOS[];
 const PRIORIDADE_OPTIONS = ["Normal", "Retorno", "Emergência"];
 const TIPO_SERVICO_OPTIONS = [
   "Limpeza",
@@ -30,22 +33,17 @@ function nomeEquipamento(ordem: OrdemRespostaDto): string {
 }
 
 export function EditOSModal({ ordem, onClose, onSave }: EditOSModalProps) {
-  const [status, setStatus] = useState("");
-  const [descricao, setDescricao] = useState("");
-  const [observacao, setObservacao] = useState("");
-  const [prioridade, setPrioridade] = useState("Normal");
-  const [tipoServico, setTipoServico] = useState("");
+  // Inicializados direto a partir de `ordem`. O componente é remontado via
+  // `key={ordem?.id}` no componente pai a cada troca de ordem, então não
+  // precisamos de um useEffect para sincronizar esses valores.
+  const [status, setStatus] = useState<TipoStatusOS>(
+    ordem?.status ?? STATUS_OPTIONS[0]
+  );
+  const [descricao, setDescricao] = useState(ordem?.descricao ?? "");
+  const [observacao, setObservacao] = useState(ordem?.observacao ?? "");
+  const [prioridade, setPrioridade] = useState(ordem?.prioridade ?? "Normal");
+  const [tipoServico, setTipoServico] = useState(ordem?.tipoServico ?? "");
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    if (ordem) {
-      setStatus(ordem.status);
-      setDescricao(ordem.descricao);
-      setObservacao(ordem.observacao ?? "");
-      setPrioridade(ordem.prioridade ?? "Normal");
-      setTipoServico(ordem.tipoServico ?? "");
-    }
-  }, [ordem]);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -112,7 +110,7 @@ export function EditOSModal({ ordem, onClose, onSave }: EditOSModalProps) {
               <select
                 className="w-full border border-gray-200 bg-gray-50 rounded-lg p-2.5 text-sm outline-none focus:border-purple-400"
                 value={status}
-                onChange={(e) => setStatus(e.target.value)}
+                onChange={(e) => setStatus(e.target.value as TipoStatusOS)}
               >
                 {STATUS_OPTIONS.map((s) => (
                   <option key={s} value={s}>{s}</option>
