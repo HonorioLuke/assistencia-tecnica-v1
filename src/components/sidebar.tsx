@@ -33,9 +33,9 @@ export function Sidebar() {
         className="p-6 text-center"
         style={{ borderBottom: '1px solid var(--color-divider)' }}
       >
-        <h2 className="text-2xl font-black text-secondary">L&L AHTI</h2>
+        <h2 className="text-2xl font-black text-secondary">Arruma Aí</h2>
         <p className="text-xs mt-1" style={{ color: 'var(--color-muted)' }}>
-          Organização de Bancada
+          Gestão de Ativos & Manutenção
         </p>
       </div>
 

@@ -4,8 +4,8 @@ import { Sidebar } from "@/components/sidebar";
 import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "L&L AHTI - Sistema de Gestão",
-  description: "Sistema de gestão para assistência técnica e controle de bancada.",
+  title: "Arruma Aí - Sistema de Gestão",
+  description: "Sistema de gestão de ativos e manutenção, aplicável a assistências técnicas, patrimônio e setores de manutenção.",
 };
 
 export default function RootLayout({

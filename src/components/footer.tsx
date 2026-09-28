@@ -10,7 +10,7 @@ export function Footer() {
         color: 'var(--color-muted)',
       }}
     >
-      &copy; {anoAtual} L&L AHTI. Todos os direitos reservados.
+      &copy; {anoAtual} Arruma Aí. Todos os direitos reservados.
     </footer>
   );
 }

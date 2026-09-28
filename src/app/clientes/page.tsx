@@ -20,7 +20,7 @@ export default function ClientesPage() {
       <div className="max-w-5xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-primary">Gestão de Clientes</h1>
-          <p className="text-subtle mt-1">Cadastre e consulte os clientes da assistência</p>
+          <p className="text-subtle mt-1">Cadastre e consulte os responsáveis pelos ativos</p>
         </div>
 
         {erro && (

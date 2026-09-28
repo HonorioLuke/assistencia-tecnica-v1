@@ -41,7 +41,7 @@ export default function OrdensPage() {
       <div className="max-w-5xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-primary">Abertura de OS</h1>
-          <p className="text-subtle mt-1">Dê entrada em um novo equipamento na assistência técnica</p>
+          <p className="text-subtle mt-1">Registre um novo chamado para o equipamento ou ativo</p>
         </div>
 
         {erro && (
