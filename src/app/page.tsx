@@ -11,7 +11,7 @@ export default function HomePage() {
     <main className="p-8 bg-page min-h-screen">
       <div className="max-w-[1400px] mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-primary">Visão Geral — ManuTech</h1>
+          <h1 className="text-3xl font-bold text-primary">Visão Geral - Arruma Aí</h1>
           <p className="text-secondary mt-1">Resumo operacional dos chamados</p>
         </div>
 
